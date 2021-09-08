@@ -3,14 +3,16 @@ function Labb1()
 end
 
 function Labb1a()
-    x = -10:100;
+    x = -200:400;
     y = arrayfun(@f, x);
     
     plot(x, y)
+    xlim([-100, 400])
+    ylim([-50, 50])
 end
 
 function y = f(x)
-    if x < 0
+    if x <= 0
         y = 0;
     elseif 0 < x && x < 75
         y = x/3;
