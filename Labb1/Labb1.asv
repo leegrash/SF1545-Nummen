@@ -26,12 +26,6 @@ function Labb1b()
     
 end
 
-function y = g()
+function y = g(x)
     y = 5;
-end
-
-function eulersMethod(h, high, low, yStart)
-    x = low:h:high;
-    y = zeroes(size(x));
-    
 end
