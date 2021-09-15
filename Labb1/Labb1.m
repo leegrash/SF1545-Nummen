@@ -1,9 +1,11 @@
 function Labb1()
    m = input("How many cars? ");
    h = input("h? ");
+   iterations = 41;
    % Labb1a()
-   % Labb1b()
-   Labb1c(m ,h)
+   %Labb1b(m,h,5,iterations)
+   %Labb1b(m,h,25,iterations)
+   Labb1c(m ,h,25,iterations)
 end
 
 function Labb1a()
@@ -30,41 +32,36 @@ function y = f(x)
     
 end
 
-function x = Labb1b(m ,h)
+function carPos = Labb1b(m ,h , vel,iterations)
   
-  x = zeros(m , 41); %placement of cars from 1 to m at time 0 to 40
-  y = zeros(m , 41); %speed of cars from 1 to m at time 0 to 40
+  carPos = zeros(m , iterations); %placement of cars from 1 to m at time 0 to 40
+  carVel = zeros(m , iterations); %speed of cars from 1 to m at time 0 to 40
   t = 1;
-  y(m , t) = g();
+  carVel(m , t) = g(vel);
   t = t+1;
-  while t <= 41
-    y(m , t) = g();
-    x(m , t) = x(m , (t-1)) + h * y(m , t);
+  while t <= iterations
+    carVel(m , t) = g(vel);
+    carPos(m , t) = carPos(m , (t-1)) + h * carVel(m , t-1);
     for i = m-1:-1:1
-        x(i , t) = x(i , (t-1)) + h * y(i , t-1);
-        y(i , t) = f(x(i+1 , t)-x(i , t));
+        carPos(i , t) = carPos(i , (t-1)) + h * carVel(i , t-1);
+        carVel(i , t) = f(carPos(i+1 , t)-carPos(i , t));
     end
     t = t + 1;
   end  
-  y
+  %carVel
 end
 
-function Labb1c(m ,h)
-    x = Labb1b(m ,h)
-    for t = 1:41
-        plot(x(:,t) , zeros(1,m),'r*');
+function Labb1c(m ,h, vel,iterations)
+    carPos = Labb1b(m ,h,vel);
+    for t = 1:iterations
+        plot(carPos(:,t) , zeros(1,m),'r*');
         axis([0 1000 -1 1])
         drawnow
         pause(h)
     end
 end
 
-function y = g()
-    y = 5;
+function y = g(vel)
+    y = vel;
 end
 
-function eulersMethod(h, high, low, yStart)
-    x = low:h:high;
-    y = zeroes(size(x));
-    
-end
