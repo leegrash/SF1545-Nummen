@@ -1,7 +1,7 @@
 function Labb1()
    m = input("How many cars? ");
    h = input("h? ");
-   iterations = 41;
+   iterations = 401;
    % Labb1a()
    %Labb1b(m,h,5,iterations)
    %Labb1b(m,h,25,iterations)
@@ -52,7 +52,7 @@ function carPos = Labb1b(m ,h , vel,iterations)
 end
 
 function Labb1c(m ,h, vel,iterations)
-    carPos = Labb1b(m ,h,vel);
+    carPos = Labb1b(m ,h,vel, iterations);
     for t = 1:iterations
         plot(carPos(:,t) , zeros(1,m),'r*');
         axis([0 1000 -1 1])
