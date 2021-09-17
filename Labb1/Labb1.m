@@ -1,11 +1,11 @@
 function Labb1()
    m = input("How many cars? ");
    h = input("h? ");
-   iterations = 401;
+   iterations = 121;
    % Labb1a()
    %Labb1b(m,h,5,iterations)
    %Labb1b(m,h,25,iterations)
-   Labb1c(m ,h,25,iterations)
+   Labb1c(m ,h,25,iterations, 10)
 end
 
 function Labb1a()
@@ -32,10 +32,10 @@ function y = f(x)
     
 end
 
-function carPos = Labb1b(m ,h , vel,iterations)
+function carPos = Labb1b(m ,h , vel,iterations, dist)
   
-  carPos = zeros(m , iterations); %placement of cars from 1 to m at time 0 to 40
-  carVel = zeros(m , iterations); %speed of cars from 1 to m at time 0 to 40
+  carPos = genPosMatrix(m, iterations, dist); %placement of cars from 1 to m at time 0 to 40
+  carVel = genVelMatrix(vel, m , iterations, dist); %speed of cars from 1 to m at time 0 to 40
   t = 1;
   carVel(m , t) = g(vel);
   t = t+1;
@@ -51,8 +51,8 @@ function carPos = Labb1b(m ,h , vel,iterations)
   %carVel
 end
 
-function Labb1c(m ,h, vel,iterations)
-    carPos = Labb1b(m ,h,vel, iterations);
+function Labb1c(m ,h, vel,iterations, dist)
+    carPos = Labb1b(m ,h,vel, iterations, dist);
     for t = 1:iterations
         plot(carPos(:,t) , zeros(1,m),'r*');
         axis([0 1000 -1 1])
@@ -64,4 +64,24 @@ end
 function y = g(vel)
     y = vel;
 end
+
+function matrix = genPosMatrix(m, iterations, dist)
+    matrix = zeros(m, iterations);
+    
+    for index=1:m
+       matrix(index, 1) = (index-1)*dist;
+    end
+    
+end
+
+function matrix = genVelMatrix(carVel, m, iterations, dist)
+    matrix = zeros(m, iterations);
+    
+    for index=1:m-1
+       matrix(index, 1) = dist/3;
+    end
+    
+    matrix(m, 1) = carVel;
+end
+
 
