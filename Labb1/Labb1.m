@@ -3,9 +3,9 @@ function Labb1()
    h = input("h? ");
    iterations = 121;
    % Labb1a()
-   %Labb1b(m,h,5,iterations)
-   %Labb1b(m,h,25,iterations)
-   Labb1c(m ,h,25,iterations, 10)
+   plotLabbB(m,h,5,iterations, 75)
+   %plotLabbB(m,h,25,iterations, 10)
+   %Labb1c(m ,h,25,iterations, 10)
 end
 
 function Labb1a()
@@ -30,6 +30,25 @@ function y = f(x)
        % "spår 3"
     end
     
+end
+
+function plotLabbB(m, h, vel, iterations, dist)
+    carPos = Labb1b(m ,h,vel, iterations, dist);
+    
+    carPosT = carPos.';
+    
+    carList = [];
+    
+    for i = 1:m
+        x = 0:iterations-1;
+        y = carPosT(:,i);
+        
+        plot(x, y)
+        hold on
+    end
+    hold off
+    
+    t = 1;
 end
 
 function carPos = Labb1b(m ,h , vel,iterations, dist)
