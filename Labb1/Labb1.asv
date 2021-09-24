@@ -10,8 +10,7 @@ function Labb1()
    %plotLabbB(m,h,5,iterations, 75)
    %plotLabbB(m,h,25,iterations, 10)
    %Labb1c(m ,h,25,iterations, 10)
-   %Labb1g(m, h, 75, iterations, 5, 5)
-   Labb1h(m, h, 75, iterations, 5, 5)
+   Labb1g(m, h, 75, iterations, 5, 5)
 end
 
 %1a
@@ -94,12 +93,7 @@ function fixPointPosMatrix = Labb1g(m, h, dist, iterations, startFixPoint, carMV
     fixPointPosMatrix = posMatrix
 end
 
-%1h
-function Labb1h(m, h, dist, iterations, startFixPoint, carMVel)
-    fixPointPosMatrix = Labb1g(m, h, dist, iterations, startFixPoint, carMVel);
-    
-    
-end
+
 
 %assisting functons
 
