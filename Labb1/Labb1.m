@@ -98,7 +98,9 @@ end
 function Labb1h(m, h, dist, iterations, startFixPoint, carMVel)
     fixPointPosMatrix = Labb1g(m, h, dist, iterations, startFixPoint, carMVel);
     
+    correctMatrix = EulerBackwards(m,iterations,startFixPoint,dist,g,h);
     
+    x = 1;
 end
 
 %assisting functons
@@ -123,6 +125,18 @@ function x = FixPoint(oldX, newX, h, startFixPoint, i)
     for k = 1:i
         x = oldX+h*f(newX-x);
     end
+end
+
+function correctMatrix = EulerBackwards(M,timeSteps,startMatrix,d,g,h)
+    for k = M-1:-1:1
+        for r = 1:timeSteps-1
+            startMatrix(r+1,k) = (3*startMatrix(r,k)+h*startMatrix(r+1,k+1))/(3+h);
+            if (startMatrix(r+1,k+1)-startMatrix(r+1,k)) >= d
+                startMatrix(r+1,k) = startMatrix(r,k)+g*h;
+            end
+        end
+    end
+    correctMatrix = startMatrix;
 end
 
 function y = g(vel)
