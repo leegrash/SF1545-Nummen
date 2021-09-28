@@ -1,17 +1,17 @@
+%Gustaf Svensson - 20000709-4170
+%Hampus Dartgard Holma - 19991118-6790
+
 function Labb1()
-   %m = input("How many cars? ");
-   %h = input("h? ");
-   
-   m = 10;
-   h = 0.1;
+   m = input("How many cars? ");
+   h = input("h? ");
    
    iterations = 121;
    % Labb1a()
-   %plotLabbB(m,h,5,iterations, 75)
-   %plotLabbB(m,h,25,iterations, 10)
-   %Labb1c(m ,h,25,iterations, 10)
-   %Labb1g(m, h, 75, iterations, 5, 5)
-   Labb1h(m, h, 75, iterations, 5, 5)
+   %plotLabbB(m,h,5,iterations, 75) %b - inbromsning
+   %plotLabbB(m,h,25,iterations, 10) %b - accelerations
+   %Labb1c(m ,h,25,iterations, 10) %c - film
+   %Labb1g(m, h, 75, iterations, 5, 5, 20) %g - fixPoint
+   Labb1h(m, h, 75, iterations, 5, 5) %h - errPlot
 end
 
 %1a
@@ -75,17 +75,17 @@ function Labb1c(m ,h, vel,iterations, dist)
 end
 
 %1g
-function fixPointPosMatrix = Labb1g(m, h, dist, iterations, startFixPoint, carMVel)
-    posMatrix = genPosMatrix(m, iterations, dist);
+function fixPointPosMatrix = Labb1g(m, h, dist, timeStep, startFixPoint, carMVel, iterations)
+    posMatrix = genPosMatrix(m, timeStep, dist);
     
     %first car
-    for t = 2:iterations
+    for t = 2:timeStep
         posMatrix(m,t) = posMatrix(m,t-1)+h*carMVel;
     end
     
-    for iteration = 1:20 %number of iterations
+    for iteration = 1:iterations %number of iterations
         for car = m-1:-1:1
-            for t = 2:iterations
+            for t = 2:timeStep
                 posMatrix(car,t) = FixPoint(posMatrix(car, t-1), posMatrix(car+1,t), h, startFixPoint, iteration);
             end
         end
@@ -95,15 +95,47 @@ function fixPointPosMatrix = Labb1g(m, h, dist, iterations, startFixPoint, carMV
 end
 
 %1h
-function Labb1h(m, h, dist, iterations, startFixPoint, carMVel)
-    fixPointPosMatrix = Labb1g(m, h, dist, iterations, startFixPoint, carMVel);
+function Labb1h(m, h, dist, timeStep, startFixPoint, carMVel)
+    fixPointPosMatrix = Labb1g(m, h, dist, timeStep, startFixPoint, carMVel, 20);
     
-    correctMatrix = EulerBackwards(m,iterations,startFixPoint,dist,g,h);
+    correctMatrix = EulerBackwards(m, timeStep, genPosMatrix(m, timeStep, dist), carMVel, h);
     
-    x = 1;
+    avgErrList = [];
+    
+    for r = 1:timeStep
+        sumErrThisStep = 0;
+        
+        for k = 1:m
+            errThisCar = correctMatrix(k, r) - fixPointPosMatrix(k, r);
+            sumErrThisStep = sumErrThisStep + abs(errThisCar);
+        end
+       
+        avgErrList(end+1) = sumErrThisStep/m;
+    end
+    
+    x = 1:timeStep;
+    y = avgErrList;
+    %plot(x, y)
+    
+    errList = J(m, h, dist, timeStep, startFixPoint, carMVel, 20, correctMatrix);
+    
+    x = 1:20;
+    y = errList;
+    semilogy(x, y)
 end
 
 %assisting functons
+
+function errList = J(m, h, dist, timeStep, startFixPoint, carMVel, iterations, correctMatrix)
+    errList = [];
+    
+    for i = 1:iterations
+        fixPointPosMatrix = Labb1g(m, h, dist, timeStep, startFixPoint, carMVel, i);
+        
+        errList(end+1) = abs(correctMatrix(1, timeStep) - fixPointPosMatrix(1, timeStep));
+    end
+    
+end
 
 function y = f(x)
     %x
@@ -127,13 +159,14 @@ function x = FixPoint(oldX, newX, h, startFixPoint, i)
     end
 end
 
-function correctMatrix = EulerBackwards(M,timeSteps,startMatrix,d,g,h)
-    for k = M-1:-1:1
+function correctMatrix = EulerBackwards(m, timeSteps, startMatrix, vel, h)
+    for r = 2:timeSteps
+        startMatrix(m, r) = startMatrix(m, r-1)+vel*h;
+    end
+    
+    for k = m-1:-1:1
         for r = 1:timeSteps-1
-            startMatrix(r+1,k) = (3*startMatrix(r,k)+h*startMatrix(r+1,k+1))/(3+h);
-            if (startMatrix(r+1,k+1)-startMatrix(r+1,k)) >= d
-                startMatrix(r+1,k) = startMatrix(r,k)+g*h;
-            end
+            startMatrix(k, r+1) = (3*startMatrix(k, r)+h*startMatrix(k+1, r+1))/(3+h);
         end
     end
     correctMatrix = startMatrix;
