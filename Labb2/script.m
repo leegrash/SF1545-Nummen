@@ -1,6 +1,9 @@
 function script()
     %Del 2
-    plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
+    %plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
+    
+    %Del 3
+    part3LS()
 end
 
 %Del 2:
@@ -48,4 +51,23 @@ function plotPart2(xList, yList)
     plot(x, yVal);
     
     hold off
+end
+
+%Del 3:
+function part3LS()
+    alpha = [150, 200, 300, 500, 1000, 2000];
+    U = [2, 3, 4, 5, 6, 7];
+    
+    aFunc = @(x, y) x./y - x./8; 
+    
+    sysR = aFunc(alpha, U)';
+    
+    sysL = ones(6, 1);
+    
+    a = sysL \ sysR;
+    
+    UFunc = @(x) 1./(1/8 + a/x);
+    
+    
+    
 end
