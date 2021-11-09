@@ -5,13 +5,13 @@ function Labb1()
    m = input("How many cars? ");
    h = input("h? ");
    
-   iterations = 121;
-   % Labb1a()
-   %plotLabbB(m,h,5,iterations, 75) %b - inbromsning
+   iterations = 400;
+   %Labb1a()
+   plotLabbB(m,h,5,iterations, 75) %b - inbromsning
    %plotLabbB(m,h,25,iterations, 10) %b - accelerations
    %Labb1c(m ,h,25,iterations, 10) %c - film
    %Labb1g(m, h, 75, iterations, 5, 5, 20) %g - fixPoint
-   Labb1h(m, h, 75, iterations, 5, 5) %h - errPlot
+   %Labb1h(m, h, 75, iterations, 5, 5) %h - errPlot
 end
 
 %1a
