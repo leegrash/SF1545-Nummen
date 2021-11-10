@@ -66,8 +66,12 @@ function part3LS()
     
     a = sysL \ sysR;
     
-    UFunc = @(x) 1./(1/8 + a/x);
+    UFunc = @(x) 1./(1./8 + a./x);
     
+    graphRangeX = 0:1:2000;
     
+    graphRangeY = UFunc(graphRangeX);
+    
+    plot(graphRangeX, graphRangeY);
     
 end
