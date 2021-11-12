@@ -4,7 +4,8 @@ function script()
     
     %Del 3
     %part3fun5LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
-    part3fun6LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
+    %part3fun6LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
+    part3fun6GN([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
 end
 
 %Del 2:
@@ -103,4 +104,37 @@ function part3fun6LS(alpha, u)
     ylim([0, 9]);
     
     plot(graphRangeX, graphRangeY);
+end
+
+function part3fun6GN(alpha, u)
+    koeff = [100, -0.5]; %Guess of koef
+    f = [];
+    j = [];
+    h = [];
+    
+    for i = 1:10
+        for k = 1:length(alpha)
+            f(k, 1) = 8 - u(k) - koeff(1,1)*(alpha(k)^koeff(1,2));
+            j(k, 1) = -alpha(k)^koeff(1,2); 
+            j(k, 2) = -koeff(1,1)*alpha(k)^koeff(1,2)*log(alpha(k));
+        end    
+
+        h = j\f;
+        koeff = koeff - h';
+    end
+    
+    uFuncGN = @(x) 8 - koeff(1,1).*x.^koeff(1,2);
+    
+    graphRangeX = 100:1:3000;
+    
+    graphRangeY = uFuncGN(graphRangeX);
+    
+    plot(alpha, u, ".");
+    hold on
+    
+    xlim([100, 3000]);
+    ylim([0, 9]);
+    
+    plot(graphRangeX, graphRangeY);
+    
 end
