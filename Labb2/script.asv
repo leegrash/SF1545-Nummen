@@ -3,10 +3,10 @@ function script()
     %plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
     
     %Del 3
-    %part3fun5LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
+    part3fun5LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
     %part3fun6LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
     %part3fun6GN([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
-    part3funAx()
+    %part3funAx()
 end
 
 %Del 2:
@@ -156,9 +156,9 @@ function part3funAx()
     uDeriv = -ua*ub*alphaVar^(ub-1);
     
     % alpha - u/uDeriv = f
-    fun = 8 - 504*alphaVar/(21025+63*alphaVar)
-    deriv = functionalDerivative(fun, alphaVar)
-    eqn = alphaVar - (8-(504*alphaVar/(21025 + 63*alphaVar)) / deriv)
+    fun = 8 - 504*alphaVar/(21025+63alphaVar)
+    deriv = functionalDerivative(
+    eqn = alphaVar - ((8-504*alphaVar)/;
    
     simplify(eqn)
     
