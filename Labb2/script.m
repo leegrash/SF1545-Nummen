@@ -1,9 +1,9 @@
 function script()
     %Del 2
-    plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
+    %plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
     
     %Del 3
-    %part3fun5LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
+    part3fun5LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
     %part3fun6LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
     %part3fun6GN([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
 end
@@ -79,7 +79,7 @@ function part3fun5LS(alpha, u)
     
     UFunc = @(x) 1./(1./8 + a./x);
     
-    graphRangeX = 0:1:2000;
+    graphRangeX = 0:1:3000;
     
     graphRangeY = UFunc(graphRangeX);
     
@@ -105,18 +105,18 @@ function [a,b] = part3LeastSquared(alpha, u)
 end
 
 function part3fun6LS(alpha, u)
-    [a,b] = part3LeastSquared(alpha, u);
+    [a,b] = part3LeastSquared(alpha, u)
    
     UFunc = @(x) 8 - a.*x.^b;
     
-    graphRangeX = 100:1:3000;
+    graphRangeX = 0:1:3000;
     
     graphRangeY = UFunc(graphRangeX);
     
     plot(alpha, u, ".");
     hold on
     
-    xlim([100, 3000]);
+    xlim([0, 3000]);
     ylim([0, 9]);
     
     plot(graphRangeX, graphRangeY);
@@ -141,14 +141,14 @@ function part3fun6GN(alpha, u)
     
     uFuncGN = @(x) 8 - koeff(1,1).*x.^koeff(1,2);
     
-    graphRangeX = 100:1:3000;
+    graphRangeX = 0:1:3000;
     
     graphRangeY = uFuncGN(graphRangeX);
     
     plot(alpha, u, ".");
     hold on
     
-    xlim([100, 3000]);
+    xlim([0, 3000]);
     ylim([0, 9]);
     
     plot(graphRangeX, graphRangeY);
