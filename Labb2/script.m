@@ -1,12 +1,11 @@
 function script()
     %Del 2
-    %plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
+    plotPart2([0, 0.5, 1, 1.5, 2, 2.99, 3], [0, 0.52, 1.09, 1.75, 2.45, 3.5, 4]);
     
     %Del 3
     %part3fun5LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
     %part3fun6LS([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
     %part3fun6GN([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
-    part3funAx()
 end
 
 %Del 2:
@@ -18,7 +17,7 @@ function [a,b] = leastSquared(xList, yList)
 end
 
 function plotPart2(xList, yList)
-    [a,b] = leastSquared(xList', yList');
+    [a,b] = leastSquared(xList', yList')
 
     plot(xList(1),yList(1),".");
     hold on
@@ -42,7 +41,6 @@ function plotPart2(xList, yList)
     hold on
     
     x = 0:0.01:3;
-    
     y1 = a*x+b*x.^2;
     plot(x, y1);
     
@@ -54,6 +52,19 @@ function plotPart2(xList, yList)
     plot(x, yVal);
     
     hold off
+    
+    lsFun = @(x) a*x+b*x.^2;
+    
+    calcDif(xList, yList, lsFun, p)
+    
+end
+
+function calcDif(xList, yList, lsFun, poly)
+    lsVal = lsFun(xList);
+    polyVal = polyval(poly, xList);
+    
+    lsDif = mean(abs(lsVal - yList))
+    polyDif = mean(abs(polyVal - yList))
 end
 
 %Del 3:
@@ -141,25 +152,5 @@ function part3fun6GN(alpha, u)
     ylim([0, 9]);
     
     plot(graphRangeX, graphRangeY);
-    
-end
-
-function part3funAx()
-    syms x alphaVar
-    xList = [0, 0.5, 1, 1.5, 2, 2.99, 3];
-    [fa,fb] = leastSquared(xList, xList.^2);
-    f = fa*x+fb*x.^2;
-    
-    [ua, ub] = part3LeastSquared([150, 200, 300, 500, 1000, 2000], [2, 3, 4, 5, 6, 7]);
-    u = 8 - ua.*alphaVar.^ub;
-    
-    uDeriv = -ua*ub*alphaVar^(ub-1);
-    
-    % alpha - u/uDeriv = f
-    fun = 8 - 504*alphaVar/(21025+63*alphaVar)
-    deriv = functionalDerivative(fun, alphaVar)
-    eqn = alphaVar - (8-(504*alphaVar/(21025 + 63*alphaVar)) / deriv)
-   
-    simplify(eqn)
     
 end
