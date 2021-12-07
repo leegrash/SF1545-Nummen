@@ -3,7 +3,7 @@
 
 function Labb1()
    m = input("How many cars? ");
-   h = input("h? ");
+   h = input("h? ");.
    
    iterations = 400;
    %Labb1a()
