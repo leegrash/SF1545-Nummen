@@ -1,8 +1,8 @@
-function [N] = keplerProblem2(p_1, p_2, q_1, q_2)
+function [N] = keplerProblem2(p1, p2, q1, q2)
     %Formeln nedan är keplerproblemet, och är given i uppgiften
-    p_1 = p_1;
-    p_2 = p_2;
-    p_prim_1 = (-q_1/(((q_1^2)+(q_2^2))^(3/2)));
-    p_prim_2 = (-q_2/(((q_1^2)+(q_2^2))^(3/2)));
-    N = [p_1; p_2; p_prim_1; p_prim_2];
+    p1 = p1;
+    p2 = p2;
+    pPrim1 = (-q1/(((q1^2)+(q2^2))^(3/2)));
+    pPrim2 = (-q2/(((q1^2)+(q2^2))^(3/2)));
+    N = [p1; p2; pPrim1; pPrim2];
 end
