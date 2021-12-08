@@ -47,16 +47,15 @@ function backwardEuler
     %Här skapas matriser för p och q vektorerna
     p = zeros(2, steps);
     q = zeros(2, steps);
-    
+    p_next = zeros(2, steps);
+    q_next = zeros(2, steps);
+
     %Här definieras begynnelsevärden
     a = 0.5; %excentriteten
     p(1,1) = 0; %startvärde p1
     p(2,1) = sqrt((1+a)/(1-a)); %startvärde p2
     q(1,1) = 1-a; %startvärde q1
-    q(2,1) = 0; %startvärde q2  
-    
-    p_next = zeros(2, steps);
-    q_next = zeros(2, steps);
+    q(2,1) = 0; %startvärde q2    
     
     %M = zeros(4, steps); %En matris för alla värden p och q
     %M(:, 1) = [q(1, 1), q(2, 1), p(1, 1), p(2, 1)];

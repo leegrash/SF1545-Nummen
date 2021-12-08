@@ -5,28 +5,27 @@ close all
 h = 0.0005;
 steps = 500000;
 
+
+%Här skapas matriser för p och q vektorerna
+p = zeros(2, steps);
+q = zeros(2, steps);
+p_prim = zeros(2, steps);
+
 %Här definieras begynnelsevärden
 a = 0.5; %excentriteten
-p_1(1) = 0;
-p_2(1) = sqrt((1+a)/(1-a));
-q_1(1) = 1-a;
-q_2(1) = 0;
+p(1,1) = 0; %startvärde p1
+p(2,1) = sqrt((1+a)/(1-a)); %startvärde p2
+q(1,1) = 1-a; %startvärde q1
+q(2,1) = 0; %startvärde q2
 
 
 %Här skapas den Symplektiska-Euler funktionen
 
 for i=1:steps
-    for i = 1:steps
-        [p_prim_1, p_prim_2] = keplerproblem(q_1(i), q_2(i));
-        p_1(i+1) = p_1(i) + p_prim_1*h;
-        p_2(i+1) = p_2(i) + p_prim_2*h;
-        q_1(i+1) = q_1(i) + p_1(i)*h;
-        q_2(i+1) = q_2(i) + p_2(i)*h;
-    end
-    p_1(i+1) = p_1(i) + p_prim_1*h;
-    p_2(i+1) = p_2(i) + p_prim_2*h;
-    q_1(i+1) = q_1(i) + p_1(i+1)*h; 
-    q_2(i+1) = q_2(i) + p_2(i+1)*h;
+    [p_prim(1, i), p_prim(2, i)] = keplerproblem(q(1, i), q(2, i));
+ 
+    p(:, i+1) = p(:, i) + p_prim(:, i)*h; 
+    q(:, i+1) = q(:, i) + p(:, i+1)*h;
 end
 
-plot(q_1, q_2)
+plot(q(1,:), q(2,:))
