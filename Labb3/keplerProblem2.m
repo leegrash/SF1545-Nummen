@@ -1,4 +1,4 @@
-function [N] = keplerProblem2(t, p_1, p_2, q_1, q_2)
+function [N] = keplerProblem2(p_1, p_2, q_1, q_2)
     %Formeln nedan är keplerproblemet, och är given i uppgiften
     p_1 = p_1;
     p_2 = p_2;
