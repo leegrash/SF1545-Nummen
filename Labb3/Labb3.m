@@ -3,8 +3,8 @@ function Labb3
     close all
     
     %forwardEuler()
-    %backwardEuler()
-    midPointMethod()
+    backwardEuler()
+    %midPointMethod()
     %symplecticEuler()
 end
 
@@ -74,7 +74,6 @@ function backwardEuler
 
         p(:, i+1) = p_next;
         q(:, i+1) = q_next;
-        i
     end
 
     %Plottar q-vektorn (planetbanan)
@@ -86,10 +85,10 @@ end
 
 function midPointMethod
     %Startvärden
-    steps = 5000; % Antal steg
-    h = 0.05; % Steglängd
-    q = zeros(2, steps)
-    p = zeros(2, steps)
+    steps = 350000; % Antal steg
+    h = 0.0005; % Steglängd
+    q = zeros(2, steps);
+    p = zeros(2, steps);
     
     % Begynnelsevärden
     a = 0.5;
