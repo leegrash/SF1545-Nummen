@@ -1,7 +1,7 @@
 function forwardEuler
     %Här definieras steglängd ("h") och antal steg ("steps")
     h = 0.0005;
-    steps = 500000;
+    steps = 5000000;
 
     %Här skapas matriser för p och q vektorerna
     p = zeros(2, steps);
