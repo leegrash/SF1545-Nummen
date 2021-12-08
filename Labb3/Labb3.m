@@ -3,8 +3,8 @@ function Labb3
     close all
     
     %forwardEuler()
-    backwardEuler()
-    %midPointMethod()
+    %backwardEuler()
+    midPointMethod()
     %symplecticEuler()
 end
 
@@ -35,6 +35,7 @@ function forwardEuler
     end
 
     plot(q(1,:), q(2,:))
+    axis equal
     energy(p(1,:),p(2,:),q(1,:),q(2,:), h, steps)
 end
 
@@ -55,16 +56,13 @@ function backwardEuler
     q(1,1) = 1-a; %startvärde q1
     q(2,1) = 0; %startvärde q2  
     
-    p_next = zeros(2, steps);
-    q_next = zeros(2, steps);
-    
     %M = zeros(4, steps); %En matris för alla värden p och q
     %M(:, 1) = [q(1, 1), q(2, 1), p(1, 1), p(2, 1)];
 
     %Bakåt Euler funktion
     for i = 1:steps-1
         p_next = p(:, i) + keplerproblem(q(1), q(2))*h;
-        q_next = q(:, i) + p*h;
+        q_next = q(:, i) + p(:, i)*h;
         %M_new = M(:, i) + keplerproblem2(M(3), M(4), M(1), M(2), h);
 
         %Notera att fixpunktsmetoden används
@@ -81,37 +79,50 @@ function backwardEuler
 
     %Plottar q-vektorn (planetbanan)
     plot(q(1,:), q(2,:))
+    axis equal
     
     %energy(p_1, p_2, q_1, q_2, h, steps);
 end
 
 function midPointMethod
-    h = 0.001; % steglängd 
-    s = 90000; 
-    tol = 1e-10;
-    u = zeros(4,s);
+    %Startvärden
+    steps = 5000; % Antal steg
+    h = 0.05; % Steglängd
+    q = zeros(2, steps)
+    p = zeros(2, steps)
     
     % Begynnelsevärden
-    a=0.5;
-    u(:,1)=[1-a; 
-        0; 
-        0; 
-        sqrt((1+a)/(1-a))];
-    f = @(q1,q2,p1,p2,q3,q4,p3,p4) [1/2*(h*p1+h*p3);
-        1/2*(h*p2+h*p4);
-        h*(-1/2*(q1+q3)/((1/2*(q1+q3))^2+(1/2*(q2+q4))^2)^(3/2));
-        h*(-1/2*(q2+q4)/((1/2*(q1+q3))^2+(1/2*(q2+q4))^2)^(3/2))];
-
-    for i=2:s
-        w = u(:,i-1);
-        while max(abs(u(:,i-1) +f(w(1),w(2),w(3),w(4),u(1,i-1),u(2,i-1),u(3,i-1), u(4,i-1))-w))> tol
-            w = u(:,i-1) + f(w(1),w(2),w(3),w(4),u(1,i-1),u(2,i-1),u(3,i-1),u(4,i-1));
+    a = 0.5;
+      
+    q(:, 1) = [1-a; 0];
+    p(:, 1) = [0; sqrt((1+a)/(1-a))];
+    
+    %q1 = 1-a;
+    %q2 = 0;
+    %p1 = 0;
+    %p2 = sqrt((1+a)/(1-a));
+    
+    data = zeros(4,steps);
+    data(:,1) = [q(1);q(2);p(1);p(2)];
+    f = @(a,b,c,d) [h*c;h*d;h*(-a/(((a^2)+(b^2))^(3/2)));h*(-b/(((a^2)+(b^2))^(3/2)))];
+    
+    %Mittpunkt med fixpunktmetoden
+    tol = 10^-9; % fixspunktstolerans
+    
+    for i=1:steps-1
+        % Vi gissar på värdet från framåt euler till fixpunktsmetoden
+        fix = data(:,i) + f(data(1,i),data(2,i),data(3,i),data(4,i)); 
+        while max(abs(data(:,i)+f(((fix(1)+data(1,i))*(1/2)),((fix(2)+data(2,i))*(1/2)),((fix(3)+data(3,i))*(1/2)),((fix(4)+data(4,i))*(1/2))) - fix)) > tol
+            fix = data(:,i) + f(((fix(1)+data(1,i))*(1/2)),((fix(2)+data(2,i))*(1/2)),((fix(3)+data(3,i))*(1/2)),((fix(4)+data(4,i))*(1/2)));
         end
-        u(:,i)=w;
+        data(:,i+1) = fix;
     end
-    q1=u(1,:);
-    q2=u(2,:);
-    plot(q1,q2)
+    
+    q(1, :) = data(1,:);
+    q(2, :) = data(2,:);
+    figure(3)
+    plot(q(1, :),q(2, :))
+    axis equal
 end
 
 function symplecticEuler
@@ -165,13 +176,3 @@ function energy(p_1, p_2, q_1, q_2, h, steps)
     plot(t, points)
 end
 
-
-%funktionen för Keplerproblemet
-function [N] = keplerproblem2(p_1, p_2, q_1, q_2, h)
-%Formeln nedan är keplerproblemet, och är given i uppgiften
-    p_1 = p_1*h;
-    p_2 = p_2*h;
-    p_prim_1 = (-q_1/(((q_1^2)+(q_2^2))^(3/2)))*h;
-    p_prim_2 = (-q_2/(((q_1^2)+(q_2^2))^(3/2)))*h;
-    N = [p_1; p_2; p_prim_1; p_prim_2];
-end
