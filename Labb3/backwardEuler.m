@@ -18,15 +18,12 @@ function backwardEuler
     %Bakåt Euler funktion
     for i = 1:steps-1     
         %Notera att fixpunktsmetoden används
-        for j = 1:20 
+        for j = 1:20
             [pPrim(1, i), pPrim(2, i)] = keplerProblem1(q(1, i+1), q(2, i+1));
 
             p(:, i+1) = p(:, i) + pPrim(:, i)*h;
             q(:, i+1) = q(:, i) + p(:, i+1)*h;
         end
-
-        %p(:, i+1) = p_next;
-        %q(:, i+1) = q_next;
     end
 
     %Plottar q-vektorn (planetbanan)
